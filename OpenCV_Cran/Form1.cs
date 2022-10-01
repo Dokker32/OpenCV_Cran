@@ -1,28 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Emgu.CV;
-using Emgu.Util;
 using Emgu.CV.Structure;
 
 namespace OpenCV_Cran
 {
+
     public partial class Form1 : Form
     {
+
         Image<Bgra, byte> ImgInput;
+
         public Form1()
         {
             InitializeComponent();
-           
-
+       
         }
 
 
@@ -45,14 +37,46 @@ namespace OpenCV_Cran
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            
 
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Image<Gray, byte> _imgCanny = new Image<Gray, byte>(ImgInput.Width, ImgInput.Height, new Gray(0));
-            _imgCanny = ImgInput.Canny(20, 50);
-            pictureBox2.Image = _imgCanny.ToBitmap();
+            Image<Gray, byte> imgCanny = new Image<Gray, byte>(ImgInput.Width, ImgInput.Height, new Gray(0));
+            imgCanny = ImgInput.Canny(Convert.ToDouble(trackBar1.Value), Convert.ToDouble(trackBar2.Value));
+            pictureBox2.Image = imgCanny.ToBitmap();
+
+        }
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog() { Filter = @"JPG|*.jpg" })
+            {
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    pictureBox2.Image.Save(saveFileDialog.FileName);
+                }
+            }
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            label1.Text = trackBar1.Value.ToString();
+        }
+
+        private void trackBar2_Scroll(object sender, EventArgs e)
+        {
+           label2.Text = trackBar2.Value.ToString();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
 
         }
     }
